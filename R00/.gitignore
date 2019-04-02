@@ -1,0 +1,7 @@
+
+.objs
+*.o
+.*.swp
+.vscode
+ft_retro
+ft_retro.dSYM

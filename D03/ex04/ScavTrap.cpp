@@ -1,0 +1,101 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScavTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cjacquet <cjacquet@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/27 15:31:58 by cjacquet          #+#    #+#             */
+/*   Updated: 2019/03/29 09:55:45 by cjacquet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <iostream>
+#include "ScavTrap.hpp"
+
+
+ScavTrap::ScavTrap(ScavTrap const & ScavTrap) {
+    std::cout << "ScavTrap Copy constructor called || " << ScavTrap.getName() << " is copied" << std::endl;
+    *this = ScavTrap;
+}
+
+ScavTrap::ScavTrap(void) {
+    std::cout << "Default ScavTrap constructor called" << std::endl;
+    this->_name = "No name";
+    this->initValues();
+}
+
+ScavTrap::ScavTrap(std::string name) {
+    std::cout << "ScavTrap Constructor called for " << name << std::endl;
+    this->_name = name;
+    this->initValues();
+}
+
+ScavTrap::~ScavTrap(void) {
+    std::cout << "ScavTrap Destructor called for " << this->_name << std::endl;
+}
+
+void        ScavTrap::initValues(void) {
+    ClapTrap::initValues();
+    this->_hitPoints = 100;
+    this->_maxHitPoints = 100;
+    this->_energyPoints = 50;
+    this->_maxEnergyPoints = 50;
+    this->_meleeAttackDamage = 20;
+    this->_rangedAttackDamage = 15;
+    this->_armorDamageReduction = 5;
+    this->_type = "SC4V-TP ";
+}
+
+void        ScavTrap::rangedAttack(std::string const & target) {
+    std::cout << this->_type << "your servitor " << this->_name << " attacks " << target << " at range, causing " << this->_rangedAttackDamage << " damages, sorry ;)" << std::endl;
+}
+
+void        ScavTrap::meleeAttack(std::string const & target) {
+    std::cout << this->_type << "your servitor " << this->_name << " attacks " << target << " at melee, causing " << this->_meleeAttackDamage << " damages, sorry ;)" << std::endl;
+}
+
+void        ScavTrap::takeDamage(unsigned int amount) {
+    unsigned int    damage;
+
+    if (this->_hitPoints == 0) {
+        std::cout << this->_type << this->_name << " Stop it! i'm already dead !" << std::endl;
+        return ;
+    }
+    damage = amount - this->getArmorDamageReduction();
+    std::cout << this->_type << this->_name << " takes " << damage << " damages" << std::endl;
+    if (damage >= this->getHitPoints()) {
+        this->setHitPoints(0);
+        std::cout << this->_type<< this->_name << " Aaaannnnnd I'm dead." << std::endl;
+    } else {
+        this->_hitPoints -= damage;
+    }
+}
+
+void        ScavTrap::beRepaired(unsigned int amount) {
+    if (amount > this->_energyPoints) {
+        std::cout << this->_type << this->_name << " Not enough energy !" << std::endl;
+    } else if (amount + this->_hitPoints > this->_maxHitPoints) {
+        this->_hitPoints = this->_maxHitPoints;
+        this->_energyPoints = ((int)this->_energyPoints - (int)amount < 0) ? 0 : this->_energyPoints - amount;
+    } else {
+        this->_hitPoints += amount;
+        this->_energyPoints -= amount;
+    }
+}
+
+void        ScavTrap::challengeNewcomer(void) {
+    int         randn = rand() % 5;
+    std::string challenges[] = {"Listen nyan cat for no reason for 5 hours.",
+                                "Act like a cat.",
+                                "Jumps every two step.",
+                                "Read the entire dictionary.",
+                                "Draw cats all over the floor."};
+        std::cout << this->_type << this->_name << " you have to " << challenges[randn] << " Good Luck !" << std::endl;
+}
+
+ScavTrap & ScavTrap::operator=(ScavTrap const & rhs){
+    ClapTrap::operator=(rhs);
+
+    return (*this);
+}
