@@ -1,6 +1,8 @@
 # piscine C++
-Travail rendu pendant la piscine C++ à 42.  
-Piscine validée à 90/100  
+Cette piscine C++ est le passage obligé pour le déblocage des projets de programmation orientée objet du cursus 42. Vous allez ici aborder les concepts de base de la POO à travers les spécifités du C++. 
+
+# Validation
+Piscine validée à 90/100
   - Day00  73/100  
   - Day01  60/100  
   - Day02  70/100  
